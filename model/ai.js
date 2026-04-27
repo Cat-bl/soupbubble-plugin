@@ -6,8 +6,10 @@ const HISTORY_LIMIT = 20
 function buildAvoidText(groupId) {
   const list = historyByGroup.get(String(groupId)) || []
   if (!list.length) return ''
-  const names = list.map(p => p.soup?.slice(0, 30)).join('、')
-  return `\n\n本群最近出过的汤面（避免重复）：${names}`
+  const items = list.map((p, i) =>
+    `${i + 1}. 汤面：${p.soup}\n   汤底：${p.bottom}`
+  ).join('\n')
+  return `\n\n本群最近出过的谜题（严格避免重复或过于相似，汤面和汤底都不能相同或类似）：\n${items}`
 }
 
 function recordPuzzle(groupId, puzzle) {
@@ -130,7 +132,9 @@ export async function generatePuzzle(groupId, category) {
   if (category) {
     userPrompt += `\n\n本局指定谜题类型/范围为「${category}」，请围绕此类型生成谜题。`
   }
-  userPrompt += buildAvoidText(groupId)
+  const avoid = buildAvoidText(groupId)
+  if (avoid) userPrompt += avoid
+  userPrompt += '\n\n重要：请确保生成的谜题与上述已有谜题完全不同，汤面情境和汤底真相都要有本质区别，不能换个说法就算新题。'
 
   const puzzle = await callAiWithRetry(systemPrompt, userPrompt, parsePuzzle)
   recordPuzzle(groupId, puzzle)

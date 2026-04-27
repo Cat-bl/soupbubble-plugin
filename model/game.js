@@ -2,6 +2,7 @@ import Config from './config.js'
 import { generatePuzzle, judgeQuestion, judgeGuess } from './ai.js'
 
 const games = {}
+const groupScores = {}
 
 export const STATE = {
   WAITING: 'waiting',
@@ -122,7 +123,7 @@ export function addPlayer(groupId, userId, nickname) {
     userId: String(userId),
     nickname: nickname || String(userId),
     avatar: `https://q1.qlogo.cn/g?b=qq&nk=${userId}&s=100`,
-    score: 0,
+    score: (groupScores[groupId]?.[String(userId)]) || 0,
     questionsAsked: 0,
   })
   scheduleWaitTimeout(game)
@@ -275,6 +276,8 @@ export async function submitGuess(groupId, userId, guess) {
     game.state = STATE.ENDED
     game.solvedBy = player.userId
     player.score += game.config.solveScore
+    if (!groupScores[groupId]) groupScores[groupId] = {}
+    groupScores[groupId][player.userId] = player.score
     game.messages.push({
       type: 'win',
       content: `${player.nickname} 猜出了汤底！\n完整汤底：${game.bottom}`,

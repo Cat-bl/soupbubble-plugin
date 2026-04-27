@@ -113,13 +113,13 @@ export class Soupbubble extends plugin {
     if (!game) return false
     const question = buildContent(e).replace(/^#?提问\s*/, '').trim()
     if (!question) return e.reply('请输入问题，例如 #提问 死者是自杀的吗？', true)
-    const thinkingMsg = await e.reply('正在思考...', true)
-    const recallTimer = setTimeout(async () => {
-      try {
-        const g = Bot.pickGroup?.(e.group_id)
-        if (g && thinkingMsg?.message_id) await g.recallMsg(thinkingMsg.message_id)
-      } catch {}
-    }, 15000)
+    // const thinkingMsg = await e.reply('正在思考...', true)
+    // const recallTimer = setTimeout(async () => {
+    //   try {
+    //     const g = Bot.pickGroup?.(e.group_id)
+    //     if (g && thinkingMsg?.message_id) await g.recallMsg(thinkingMsg.message_id)
+    //   } catch {}
+    // }, 15000)
     const r = await Game.askQuestion(e.group_id, String(e.user_id), question)
     if (r.error) return e.reply(r.error, true)
     await this.render(e, r.game)
