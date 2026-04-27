@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        width: 680px;
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: linear-gradient(180deg, #dbeafe 0%, #f5f5f7 40%);
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { padding: 26px 20px 16px 20px; }
+      .title {
+        text-align: center;
+        font-size: 34px;
+        font-weight: 800;
+        color: #1e3a5f;
+        margin-bottom: 4px;
+        letter-spacing: 2px;
+      }
+      .subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: #6b8db5;
+        margin-bottom: 18px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 16px 18px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(30,58,95,0.06);
+      }
+      .card h2 {
+        font-size: 16px;
+        color: #2563eb;
+        padding-left: 10px;
+        border-left: 4px solid #3b82f6;
+        margin-bottom: 12px;
+        line-height: 1;
+      }
+      .rules {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.8;
+      }
+      .rules ol { padding-left: 22px; }
+      .rules code {
+        background: #f3f4f6;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        color: #2563eb;
+      }
+      table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      th {
+        background: #dbeafe;
+        color: #1e3a5f;
+        text-align: left;
+        padding: 8px 10px;
+        font-weight: 600;
+      }
+      td {
+        padding: 8px 10px;
+        border-bottom: 1px solid #f3f4f6;
+        color: #333;
+        vertical-align: top;
+      }
+      tr:last-child td { border-bottom: none; }
+      td.cmd {
+        color: #2563eb;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        white-space: nowrap;
+        width: 180px;
+      }
+      td.role { width: 96px; color: #888; font-size: 12px; }
+      .win-box {
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 13px;
+        background: #dcfce7;
+        color: #047857;
+      }
+      .win-box b { display: block; font-size: 13px; margin-bottom: 3px; }
+      .tip {
+        background: #fef3c7;
+        border-left: 3px solid #f59e0b;
+        padding: 8px 12px;
+        font-size: 12px;
+        color: #92400e;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+      .footer {
+        text-align: center;
+        font-size: 11px;
+        color: #aaa;
+        padding: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" class="wrap">
+      <div class="title">海龟汤</div>
+      <div class="subtitle">soupbubble-plugin · 情境猜谜推理游戏</div>
+
+      <div class="card">
+        <h2>游戏规则</h2>
+        <div class="rules">
+          <ol>
+            <li>机器人公布一个神秘的<strong>汤面</strong>（简短情境描述）</li>
+            <li>玩家通过 <code>#提问 问题</code> 提出<strong>是/否</strong>问题</li>
+            <li>AI 裁判回答：<strong>是</strong>、<strong>不是</strong>、<strong>无关</strong></li>
+            <li>通过问答推理出完整的故事真相（<strong>汤底</strong>）</li>
+            <li>任何玩家可随时用 <code>#猜汤底 答案</code> 提交最终猜测</li>
+            <li>第一个猜对汤底的玩家获胜！</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>得分规则</h2>
+        <div class="win-box">
+          <b>猜出汤底 +5 分</b>
+          仅第一个猜对的玩家获得加分，游戏即结束
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>指令一览</h2>
+        <table>
+          <tr><th>指令</th><th>说明</th><th>角色</th></tr>
+          <tr><td class="cmd">#海龟汤</td><td>发起一局新游戏</td><td class="role">任意玩家</td></tr>
+          <tr><td class="cmd">#加入海龟汤</td><td>加入已发起的游戏</td><td class="role">任意玩家</td></tr>
+          <tr><td class="cmd">#退出海龟汤</td><td>等待阶段退出游戏</td><td class="role">已加入</td></tr>
+          <tr><td class="cmd">#开始海龟汤 [类型]</td><td>开始游戏，可附加类型</td><td class="role">发起人</td></tr>
+          <tr><td class="cmd">#提问 xxx</td><td>提出一个推理问题（是/否问题）</td><td class="role">游戏中玩家</td></tr>
+          <tr><td class="cmd">#猜汤底 xxx</td><td>提交你的最终猜测</td><td class="role">游戏中玩家</td></tr>
+          <tr><td class="cmd">#海龟汤状态</td><td>查看当前游戏状态图</td><td class="role">任意玩家</td></tr>
+          <tr><td class="cmd">#海龟汤结束</td><td>强制结束当前游戏</td><td class="role">发起人/主人</td></tr>
+          <tr><td class="cmd">#海龟汤帮助</td><td>查看本帮助</td><td class="role">任意玩家</td></tr>
+        </table>
+        <div class="tip">
+          提示：AI 生成的汤底只有机器人和发起人知道，请通过推理逐步接近真相。问题应该是"是/否"形式，AI 不会回答开放式问题。
+        </div>
+      </div>
+
+      <div class="footer">Trss-Yunzai · 海龟汤 · soupbubble-plugin</div>
+    </div>
+  </body>
+</html>

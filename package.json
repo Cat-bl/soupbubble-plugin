@@ -1,0 +1,21 @@
+{
+  "name": "soupbubble-plugin",
+  "version": "1.0.0",
+  "description": "基于 Trss-Yunzai 的海龟汤（情境猜谜）游戏插件，AI 生成谜题并担任裁判",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cat-bl/soupbubble-plugin"
+  },
+  "keywords": [
+    "Yunzai-Bot",
+    "Miao-Yunzai",
+    "Trss-Yunzai",
+    "soupbubble-plugin",
+    "海龟汤"
+  ],
+  "author": "",
+  "license": "MIT"
+}
